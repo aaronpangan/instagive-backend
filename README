@@ -1,0 +1,18 @@
+
+
+add jwt to all routes
+
+editProfilePic in userPostController needs the old 
+image name to remove from the directory
+
+deleteRefPic in the userPostController needs the old name as well
+
+
+
+
+
+
+Add list of post of the user in the Orgs model and set it default to 0
+and increment everytime a new post is created
+
+
