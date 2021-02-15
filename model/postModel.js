@@ -10,7 +10,8 @@ const postSchema = new mongoose.Schema({
   description: String,
   totalAmount: Number,
   currentAmount: Number,
-  totalDonors: Number
+  totalDonors: Number,
+  totalUpdates: Number
 });
 
 const Post = mongoose.model('post', postSchema);

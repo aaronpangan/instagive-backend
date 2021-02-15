@@ -1,7 +1,7 @@
 const Post = require('../model/postModel');
 const fs = require('fs');
-const Orgs = require('../model/orgModel');
 const { findById, findByIdAndDelete } = require('../model/postModel');
+const Request = require('../model/requestModel');
 
 // DECODE JWT FIRST FOR THE USER ID
 
@@ -41,141 +41,132 @@ exports.createPost = async (req, res) => {
     totalAmount: req.body.totalAmount,
     currentAmount: 0,
     totalDonors: 0,
+    totalUpdates: 0,
   });
 
   await post.save();
-  console.log(post);
 
-  res.send(post)
+  // Adding Total post in the request account
+  const numberOfPost = await Request.findById(id);
+
+  const pushNumberOfPost = await Request.findByIdAndUpdate(id, {
+    totalPost: numberOfPost.totalPost + 1,
+  });
+
+  await pushNumberOfPost.save();
+
+  res.send(post);
 };
 
 exports.deletePost = async (req, res) => {
+  const userId = req.user.id;
 
-    const post = await findByIdAndDelete(req.params.postId);
+  const post = await findByIdAndDelete(req.params.postId);
 
-    // Not sure to save after deleting
-    await post.save();
+  // Not sure to save after deleting
+  await post.save();
 
-    res.send('Deleted Successfully')
+  // Decrementing Number of post in the user account
+  const numberOfPost = await Request.findById(userId);
 
+  const pushNumberOfPost = await Request.findByIdAndUpdate(userId, {
+    totalPost: numberOfPost.totalPost -1,
+  });
 
+  await pushNumberOfPost.save();
 
+  res.send('Deleted Successfully');
 };
 
 // Edit post title or description / Can't be empty
 exports.editText = async (req, res) => {
+  const post = await Post.findByIdAndUpdate(
+    req.params.postId,
+    {
+      Title: req.body.title,
+      description: req.body.description,
+    },
+    { new: true }
+  );
 
-   
+  await post.save();
 
-    const post = await Post.findByIdAndUpdate(
-        req.params.postId,
-      {
-        Title: req.body.title,
-        description: req.body.description,
-      },
-      { new: true }
-    );
-  
-    await post.save();
-  
-    console.log(post);
-  
-  res.send(post)
+  console.log(post);
 
+  res.send(post);
 };
 
 // Edit the post profile picture / Can't be empty
 exports.editProfilePic = async (req, res) => {
+  const post = await Post.findByIdAndUpdate(
+    req.params.postId,
+    {
+      profilePic: req.file.filename,
+    },
+    { new: true }
+  );
 
+  await post.save();
 
+  console.log(post.profilePic);
 
-    const post = await Post.findByIdAndUpdate(
-        req.params.postId,
-      {
-        profilePic: req.file.filename,
-      },
-      { new: true }
+  // Deleting the photo from the directory
+  // You need the old image name from the frontend
+  try {
+    fs.unlinkSync(
+      `${path.dirname(require.main.filename)}/public/${req.body.oldimagePost}`
     );
-  
-    await post.save();
-  
-    console.log(post.profilePic);
-  
+    console.log('Success');
+  } catch (err) {
+    console.error(err);
+  }
 
-    // Deleting the photo from the directory
-    // You need the old image name from the frontend
-    try {
-      fs.unlinkSync(
-        `${path.dirname(require.main.filename)}/public/${req.body.oldimagePost}`
-      );
-      console.log('Success');
-    } catch (err) {
-      console.error(err);
-    }
-  
-   res.send(post)
-
-
+  res.send(post);
 };
-
-
 
 // Add the new photo in array
 exports.addRefPic = async (req, res) => {
+  let imageList = [];
+  req.files.forEach((name) => imageList.push(name.filename));
 
+  const post = await Post.findByIdAndUpdate(
+    req.params.postId,
+    {
+      $push: { imageList: imageList },
+    },
+    { new: true }
+  );
 
+  await post.save();
 
-    let imageList = [];
-    req.files.forEach((name) => imageList.push(name.filename));
-  
-    const post = await Post.findByIdAndUpdate(
-        req.params.postId,
-      {
-        $push: { imageList: imageList },
-      },
-      { new: true }
-    );
-  
-    await post.save();
-  
-    console.log(post.imageList);
-  
-    res.send(post);
+  console.log(post.imageList);
 
-
+  res.send(post);
 };
-
-
 
 // Pull the selected photo from the array
 exports.deleteRefPic = async (req, res) => {
+  const postId = req.params.postId;
+  const imageName = req.params.imageName;
 
+  //    You need the image name of the photo from the frontend
+  const post = await Post.findByIdAndUpdate(
+    req.params.postId,
+    {
+      $pull: { imageList: req.params.imageName },
+    },
+    { new: true }
+  );
 
-    const postId = req.params.postId;
-    const imageName = req.params.imageName;
-  
-   
-//    You need the image name of the photo from the frontend
-    const post = await Post.findByIdAndUpdate(
-        req.params.postId,
-      {
-        $pull: { imageList: req.params.imageName },
-      },
-      { new: true }
-    );
-  
-    await post.save();
-  
+  await post.save();
 
-    // Delete the photo from the directory
-    try {
-      fs.unlinkSync(`${path.dirname(require.main.filename)}/public/${imageName}`);
-      console.log('Success');
-    } catch (err) {
-      console.error(err);
-    }
-  
-   res.send('Picture Deleted Successfully')
+  // Delete the photo from the directory
+  try {
+    fs.unlinkSync(`${path.dirname(require.main.filename)}/public/${imageName}`);
+    console.log('Success');
+  } catch (err) {
+    console.error(err);
+  }
 
-    
+  res.send('Picture Deleted Successfully');
 };

@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const Donate = require('../model/donateModel');
 const pdf = require('pdfkit');
+const Request = require('../model/requestModel');
 
 // For donating, get the post ID first
 
@@ -11,6 +12,7 @@ exports.donate = async (req, res) => {
   const { amount, name, email, message } = req.body;
   const id = req.params.postId;
 
+  // For Adding Donor List in Post
   const post = await Post.findById(id);
 
   const newAmount = post.currentAmount + parseInt(amount);
@@ -24,8 +26,18 @@ exports.donate = async (req, res) => {
     },
     { new: true }
   );
-
   await newPost.save();
+
+  // For Adding Donor List in USer
+  const user = await Request.findById(post.User);
+
+  const newDonorUser = user.totalDonors + 1;
+
+  const pushNewDonorUser = await Request.findByIdAndUpdate({
+    totalDonors: newDonorUser,
+  });
+
+  await pushNewDonorUser.save();
 
   const doc = new pdf({
     layout: 'landscape',

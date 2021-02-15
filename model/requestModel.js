@@ -7,7 +7,6 @@ const requestSchema = new mongoose.Schema({
   },
   password: String,
   city: String,
-  region: String,
   zipcode: String,
   orgName: String,
   orgAddress: String,
@@ -17,7 +16,8 @@ const requestSchema = new mongoose.Schema({
   repId: String,
   orgDocuments: [],
   orgDescriptions: String,
-
+  totalPost: Number,
+  totalDonors: Number,
   accountStatus: String,
 });
 

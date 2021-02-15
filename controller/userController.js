@@ -3,7 +3,6 @@ const bcyrpt = require('bcrypt');
 const Post = require('../model/postModel');
 const Request = require('../model/requestModel');
 const { transporter } = require('../utility/nodeMailer');
-const Orgs = require('../model/orgModel');
 
 // Login
 exports.login = async (req, res) => {
@@ -13,7 +12,7 @@ exports.login = async (req, res) => {
 
   console.log(req.body);
 
-  const user = await Orgs.findOne({
+  const user = await Request.findOne({
     email: req.body.username,
     password: req.body.password,
   });
@@ -44,7 +43,6 @@ exports.requestAccount = async (req, res) => {
     email,
     password,
     city,
-    region,
     zipcode,
     orgName,
     orgAddress,
@@ -81,7 +79,6 @@ exports.requestAccount = async (req, res) => {
     email: email,
     password: password,
     city: city,
-    region: region,
     zipcode: zipcode,
     orgName: orgName,
     orgAddress: orgAddress,
@@ -91,6 +88,8 @@ exports.requestAccount = async (req, res) => {
     repId: req.files['repId'][0].filename,
     orgDocuments: documents,
     orgDescriptions: orgDescriptions,
+    totalPost: 0,
+    totalDonors: 0,
     accountStatus: 'pending',
   });
 
@@ -105,7 +104,6 @@ exports.requestAccount = async (req, res) => {
       <h2> ${orgAddress} </h2>
       <h2> ${orgNumber} </h2>
       <h2> ${city} </h2>
-      <h2> ${region} </h2>
       <h2> ${zipcode} </h2>
       <h2> ${repName} </h2>
       <h2> ${orgDescriptions} </h2>
