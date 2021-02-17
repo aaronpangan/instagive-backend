@@ -33,6 +33,11 @@ exports.logout = async (req, res) => {
   else res.status(500).send('You are not login!');
 };
 
+
+
+
+
+
 exports.getAllAccounts = async (req, res) => {
   const approved = Request.find({
     accountStatus: 'approved',

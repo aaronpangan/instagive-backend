@@ -19,5 +19,6 @@ deleteRefPic in the userPostController needs the old name as well
 
 
 
-
+Needs ledger for every payment platform of the organization
+can manually input donation and will automatically reflect on the donoation amount
 
