@@ -3,6 +3,7 @@ const bcyrpt = require('bcrypt');
 const Post = require('../model/postModel');
 const Request = require('../model/requestModel');
 const { transporter } = require('../utility/nodeMailer');
+const mongoose = require('mongoose');
 
 // Login
 exports.login = async (req, res) => {
@@ -95,7 +96,7 @@ exports.requestAccount = async (req, res) => {
 
   await request.save();
 
-  let mailOptions = {
+  let mailContent = {
     from: 'instagive2021@gmail.com',
     to: 'instagive2021@gmail.com',
     subject: ` REQUESTING ACCOUNT: ${email}`,
@@ -116,7 +117,7 @@ exports.requestAccount = async (req, res) => {
     attachments: docs,
   };
 
-  transporter.sendMail(mailOptions, (err, info) => {
+  transporter.sendMail(mailContent, (err, info) => {
     if (err) {
       console.log(err);
     } else {
@@ -125,4 +126,63 @@ exports.requestAccount = async (req, res) => {
   });
 
   res.send(request);
+};
+
+// Change Password
+
+exports.changePassword = async (req, res) => {
+  const userId = req.user.id;
+
+  const checkOldPassword = await Request.findById(userId);
+
+  if (req.body.oldPassword !== checkOldPassword.password)
+    return res.status(500).send('Wrong Old Password!');
+
+  const user = await Request.findByIdAndUpdate(userId, {
+    password: req.body.newPassword,
+  });
+
+  await user.save();
+
+  res.send('Password Successfuly Changed');
+
+
+};
+
+// Forgot Password
+
+exports.forgotPassword = async (req, res) => {
+  const userEmail = await Request.findOne({
+    email: req.body.email,
+  });
+
+  if (!userEmail) return res.status(500).send('Email Not Found');
+
+  const newPassword = mongoose.Types.ObjectId();
+
+  const setNewPassword = await Request.findByIdAndUpdate(userEmail._id, {
+    password: newPassword,
+  });
+
+  await setNewPassword.save();
+
+  // Change this to user email
+  let mailContent = {
+    from: 'instagive2021@gmail.com',
+    to: 'instagive2021@gmail.com',
+    subject: `Instagive Pampanga - Change Password`,
+    html: `<h1>Your Temporary Password is:  ${newPassword}</h1>
+      <h2>Please change it after you Logged in. Thank You!</h2>
+    `,
+  };
+
+  transporter.sendMail(mailContent, (err, info) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('MESSAGE SENT!!');
+    }
+  });
+
+  res.send('Temporary Password sent to email');
 };

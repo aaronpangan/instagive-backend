@@ -4,6 +4,8 @@ const {
   requestAccount,
   login,
   logout,
+  changePassword,
+  forgotPassword,
 } = require('../controller/userController');
 
 const { verifyCookie, verifyToken } = require('../middleware/verifyToken');
@@ -27,5 +29,12 @@ router.post(
 
 router.post('/login', login);
 router.post('/logout', [verifyCookie, verifyToken], logout);
+
+router.post('/changepassword', [verifyCookie, verifyToken], changePassword);
+router.post('/forgotPassword', forgotPassword);
+
+
+
+
 
 module.exports = router;
