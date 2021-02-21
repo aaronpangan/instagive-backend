@@ -7,7 +7,6 @@ const requestSchema = new mongoose.Schema({
   },
   password: String,
   city: String,
-  zipcode: String,
   orgName: String,
   orgAddress: String,
   orgPhoto: String,

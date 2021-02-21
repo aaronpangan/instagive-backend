@@ -2,14 +2,6 @@ const multer = require('multer');
 const path = require('path');
 const mongoose = require('mongoose');
 
-
-
-
-
-
-
-
-
 // Middleware for multer (Requestaccount)
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -27,10 +19,8 @@ const storage = multer.diskStorage({
   },
 });
 
-module.exports = upload = multer({
+const upload = multer({
   storage: storage,
 });
 
-
-
-
+module.exports = upload;

@@ -20,6 +20,8 @@ exports.login = async (req, res) => {
 
   if (!user) return res.status(404).send('Credentials Error!');
 
+  if (user.accountStatus != 'approved') console.log(user.accountStatus);
+
   const id = user._id;
 
   const jwtToken = jwt.sign({ id }, process.env.jwtPrivateKey);
@@ -44,7 +46,7 @@ exports.requestAccount = async (req, res) => {
     email,
     password,
     city,
-    zipcode,
+
     orgName,
     orgAddress,
     orgNumber,
@@ -80,7 +82,6 @@ exports.requestAccount = async (req, res) => {
     email: email,
     password: password,
     city: city,
-    zipcode: zipcode,
     orgName: orgName,
     orgAddress: orgAddress,
     orgPhoto: req.files['orgPhoto'][0].filename,
@@ -105,10 +106,8 @@ exports.requestAccount = async (req, res) => {
       <h2> ${orgAddress} </h2>
       <h2> ${orgNumber} </h2>
       <h2> ${city} </h2>
-      <h2> ${zipcode} </h2>
       <h2> ${repName} </h2>
       <h2> ${orgDescriptions} </h2>
-  
   
   
   
@@ -125,7 +124,9 @@ exports.requestAccount = async (req, res) => {
     }
   });
 
-  res.send(request);
+
+  console.log(req.body)
+  res.send(req.files);
 };
 
 // Change Password
@@ -145,8 +146,6 @@ exports.changePassword = async (req, res) => {
   await user.save();
 
   res.send('Password Successfuly Changed');
-
-
 };
 
 // Forgot Password
@@ -186,3 +185,8 @@ exports.forgotPassword = async (req, res) => {
 
   res.send('Temporary Password sent to email');
 };
+
+
+
+
+

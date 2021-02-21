@@ -15,8 +15,6 @@ const upload = require('../middleware/requestAccountMulter');
 // Register account with multer
 router.post(
   '/register',
-  [verifyCookie, verifyToken],
-
   upload.fields([
     { name: 'orgPhoto' },
     { name: 'repId' },
@@ -32,9 +30,5 @@ router.post('/logout', [verifyCookie, verifyToken], logout);
 
 router.post('/changepassword', [verifyCookie, verifyToken], changePassword);
 router.post('/forgotPassword', forgotPassword);
-
-
-
-
 
 module.exports = router;
