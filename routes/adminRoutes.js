@@ -2,20 +2,23 @@ const express = require('express');
 const router = express.Router();
 const {
   login,
-  logout,
+ // logout,
   getAllAccounts,
   changeAccountStatus,
 } = require('../controller/adminController');
+const  verifyTokenAdmin  = require('../middleware/verifyTokenAdmin.');
+
+
 
 // Admin Login
 router.post('/login', login);
-router.post('/logout', logout);
-router.get('/getusers', getAllAccounts);
+// router.post('/logout', logout);
+router.get('/getusers',verifyTokenAdmin,  getAllAccounts);
 
 
 
 // Must past status [approved, pending, rejected]
-router.post('/changestatus/:userId/:status', changeAccountStatus);
+router.post('/changestatus/:userId/:status', verifyTokenAdmin,  changeAccountStatus);
 
 module.exports = router;
 

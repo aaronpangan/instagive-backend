@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Joi = require('joi');
 
 const updatesSchema = new mongoose.Schema({
   PostId: mongoose.ObjectId,

@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Joi = require('joi');
 
 const postSchema = new mongoose.Schema({
   User: mongoose.ObjectId,
@@ -10,8 +9,10 @@ const postSchema = new mongoose.Schema({
   description: String,
   totalAmount: Number,
   currentAmount: Number,
+  location: String,
   totalDonors: Number,
-  totalUpdates: Number
+  totalUpdates: Number,
+  donationType: String
 });
 
 const Post = mongoose.model('post', postSchema);

@@ -6,6 +6,7 @@ const donateRouter = require('../routes/donateRoutes');
 
 const postUpdateRouter = require('../routes/postUpdateRoutes');
 const userpost = require('../routes/userRoutes');
+const ledgerRoutes = require('../routes/ledgerRoutes')
 
 module.exports = function (app, dir) {
   app.use(express.json());
@@ -17,8 +18,13 @@ module.exports = function (app, dir) {
   app.use('/donate', donateRouter);
   app.use('/updates', postUpdateRouter);
   app.use('/userpost', userpost);
+  app.use('/ledger', ledgerRoutes)
+
   // Error
   app.use((req, res, next) => {
     res.status(404).send('PAGE NOT FOUND');
   });
 };
+
+
+

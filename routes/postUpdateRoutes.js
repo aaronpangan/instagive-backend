@@ -9,13 +9,13 @@ const router = express.Router();
 const upload = require('../middleware/postMulter');
 
 
-const {verifyCookie, verifyToken} = require('../middleware/verifyToken');
+const  verifyToken  = require('../middleware/verifyToken');
 
 
 
 // Create Update
 router.post(
-  '/:postId', [verifyCookie, verifyToken],
+  '/:postId', [ verifyToken],
 
   upload.array('imageList'),
 
@@ -23,16 +23,16 @@ router.post(
 );
 
 // Delete Update must pass the Id of the Uodate
-router.delete('/:postId/:updateId', [verifyCookie, verifyToken],
+router.delete('/:postId/:updateId', [ verifyToken],
 deleteUpdates);
 
 //  View all updates
-router.get('/:postId/',  [verifyCookie, verifyToken],
+router.get('/:postId/',  [ verifyToken],
 viewAllUpdate )
 
 
 // view update
-router.get('/:postId/:updateId', [verifyCookie, verifyToken],
+router.get('/:postId/:updateId', [verifyToken],
 viewUpdate )
 
 

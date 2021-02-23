@@ -4,9 +4,7 @@ const Request = require('../model/requestModel');
 
 // Admin Login
 exports.login = async (req, res) => {
-  if (req.cookies.admin) {
-    return res.status(500).send('You are already Login');
-  }
+ 
 
   const admin = await Admin.findOne({
     username: req.body.username,
@@ -19,19 +17,30 @@ exports.login = async (req, res) => {
 
   const jwtToken = jwt.sign({ id }, process.env.jwtPrivateKey);
 
-  res
-    .cookie('admin', jwtToken, {
-      httpOnly: true,
-    })
-    .send('Success');
+
+  res.header('admin', jwtToken).send('Success');
 };
 
-// Admin Logout
-exports.logout = async (req, res) => {
-  if (req.cookies.admin)
-    return res.clearCookie('admin').send('Logout Successfully');
-  else res.status(500).send('You are not login!');
-};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//  Admin Logout
+// exports.logout = async (req, res) => {
+//   if (req.cookies.admin)
+//     return res.clearCookie('admin').send('Logout Successfully');
+//   else res.status(500).send('You are not login!');
+// };
 
 
 
@@ -53,6 +62,12 @@ exports.getAllAccounts = async (req, res) => {
 
   res.send({ approved, pending, deleted });
 };
+
+
+
+
+
+
 
 exports.changeAccountStatus = async (req, res) => {
   const userId = req.params.userId;

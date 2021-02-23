@@ -7,10 +7,6 @@ const mongoose = require('mongoose');
 
 // Login
 exports.login = async (req, res) => {
-  if (req.cookies.user) {
-    return res.status(500).send('You are already logged in!');
-  }
-
   console.log(req.body);
 
   const user = await Request.findOne({
@@ -20,24 +16,21 @@ exports.login = async (req, res) => {
 
   if (!user) return res.status(404).send('Credentials Error!');
 
-  if (user.accountStatus != 'approved') console.log(user.accountStatus);
+  if (user.accountStatus != 'approved')
+    return res.status(401).send('Your Account Is still under review');
 
   const id = user._id;
 
   const jwtToken = jwt.sign({ id }, process.env.jwtPrivateKey);
 
-  res
-    .cookie('user', jwtToken, {
-      httpOnly: true,
-    })
-    .send('Login Success');
+  res.header('user', jwtToken).status(200).send('Success');
 };
 
-exports.logout = async (req, res) => {
-  if (req.cookies.user)
-    return res.clearCookie('user').send('Logout Successful');
-  else res.status(500).send('You are not Logged In!');
-};
+// exports.logout = async (req, res) => {
+//   if (req.cookies.user)
+//     return res.clearCookie('user').send('Logout Successful');
+//   else res.status(500).send('You are not Logged In!');
+// };
 
 // Request Account
 // Doesnt work on postman due to having multipart data
@@ -53,6 +46,12 @@ exports.requestAccount = async (req, res) => {
     repName,
     orgDescriptions,
   } = req.body;
+
+  const user = await Request.findOne({
+    email: req.body.email,
+  });
+
+  if (user) return res.status(500).send('Email Already Exist');
 
   let documents = [];
 
@@ -124,8 +123,7 @@ exports.requestAccount = async (req, res) => {
     }
   });
 
-
-  console.log(req.body)
+  console.log(req.body);
   res.send(req.files);
 };
 
@@ -185,8 +183,3 @@ exports.forgotPassword = async (req, res) => {
 
   res.send('Temporary Password sent to email');
 };
-
-
-
-
-

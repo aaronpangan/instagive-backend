@@ -11,31 +11,39 @@ const {
 } = require('../controller/userPostController');
 const router = express.Router();
 
-const {verifyCookie, verifyToken} = require('../middleware/verifyToken');
+const verifyToken = require('../middleware/verifyToken');
 const upload = require('../middleware/postMulter');
 
 // VERIFY JWT IN ALL THESE ROUTES
-router.get('userpost', [verifyCookie, verifyToken], getUserPost);
-router.get('userpost/:postId', [verifyCookie, verifyToken], getDetailPost);
+router.get('userpost', [verifyToken], getUserPost);
+router.get('userpost/:postId', [verifyToken], getDetailPost);
 
 // Creating a post
 router.post(
   'createpost',
-  [verifyCookie, verifyToken],
+  [verifyToken],
 
   [upload.fields([{ name: 'imagePost' }, { name: 'imageList' }])],
   createPost
 );
 // Delete full post
-router.delete('deletepost/:postId', [verifyCookie, verifyToken], deletePost);
+router.delete('deletepost/:postId', [verifyToken], deletePost);
+
+
+
+
+
+
+
+
 
 // Edit title/description
-router.put('edittext/:postId', [verifyCookie, verifyToken], editText);
+router.put('edittext/:postId', [verifyToken], editText);
 
 // Edit post main picture / Can't be empty
 router.put(
   'editprofilepic/:postId',
-  [verifyCookie, verifyToken],
+  [verifyToken],
 
   upload.single('imagePost'),
   editProfilePic
@@ -44,16 +52,12 @@ router.put(
 // Add reference picture (Carousel)
 router.post(
   'addrefpic/:postId',
-  [verifyCookie, verifyToken],
+  [verifyToken],
   upload.array('imageList'),
   addRefPic
 );
 
 // Delete a reference picture
-router.put(
-  'deleterefpic/:postId/:picId',
-  [verifyCookie, verifyToken],
-  deleteRefPic
-);
+router.put('deleterefpic/:postId/:picId', [verifyToken], deleteRefPic);
 
 module.exports = router;

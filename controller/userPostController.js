@@ -39,6 +39,8 @@ exports.createPost = async (req, res) => {
     imageList: imageList,
     description: req.body.description,
     totalAmount: req.body.totalAmount,
+    location: req.body.location,
+    donationType: req.body.donationType,
     currentAmount: 0,
     totalDonors: 0,
     totalUpdates: 0,
@@ -70,7 +72,7 @@ exports.deletePost = async (req, res) => {
   const numberOfPost = await Request.findById(userId);
 
   const pushNumberOfPost = await Request.findByIdAndUpdate(userId, {
-    totalPost: numberOfPost.totalPost -1,
+    totalPost: numberOfPost.totalPost - 1,
   });
 
   await pushNumberOfPost.save();

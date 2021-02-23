@@ -8,13 +8,13 @@ const {
   forgotPassword,
 } = require('../controller/userController');
 
-const { verifyCookie, verifyToken } = require('../middleware/verifyToken');
+const verifyToken  = require('../middleware/verifyToken');
 
 const upload = require('../middleware/requestAccountMulter');
 
 // Register account with multer
 router.post(
-  '/register',
+  '/register',  
   upload.fields([
     { name: 'orgPhoto' },
     { name: 'repId' },
@@ -26,9 +26,9 @@ router.post(
 // For user login
 
 router.post('/login', login);
-router.post('/logout', [verifyCookie, verifyToken], logout);
+//router.post('/logout', [ verifyToken], logout);
 
-router.post('/changepassword', [verifyCookie, verifyToken], changePassword);
+router.post('/changepassword', [ verifyToken], changePassword);
 router.post('/forgotPassword', forgotPassword);
 
 module.exports = router;
