@@ -15,12 +15,25 @@ exports.getUserPost = async (req, res) => {
   res.send(userPost);
 };
 
+
+
+
 // View full post upon clicking
 exports.getDetailPost = async (req, res) => {
   const post = await findById(req.params.postId);
 
   res.send(post);
 };
+
+
+
+
+
+
+
+
+
+
 
 exports.createPost = async (req, res) => {
   // req.user or below
@@ -31,11 +44,11 @@ exports.createPost = async (req, res) => {
     req.files['imageList'].forEach((name) => imageList.push(name.filename));
   }
 
-  const post = new Post({
+  const post = await new Post({
     User: id,
-    Title: req.body.title,
+    Title: req.body.Title,
     datePosted: Date.now(),
-    profilePic: req.files['imagePost'][0].filename,
+    profilePic: req.files['profilePic'][0].filename,
     imageList: imageList,
     description: req.body.description,
     totalAmount: req.body.totalAmount,
@@ -59,6 +72,25 @@ exports.createPost = async (req, res) => {
 
   res.send(post);
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 exports.deletePost = async (req, res) => {
   const userId = req.user.id;

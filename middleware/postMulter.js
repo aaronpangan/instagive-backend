@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'public');
+    cb(null, '.././instagive-react-frontend/public/docs');
   },
   filename: (req, file, cb) => {
     cb(

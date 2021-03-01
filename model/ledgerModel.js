@@ -10,6 +10,9 @@ const ledgerSchema = new mongoose.Schema({
   amount: Number,
   remarks: String,
   date: String,
+
+
+  
 });
 
 const Ledger = mongoose.model('ledger', ledgerSchema);

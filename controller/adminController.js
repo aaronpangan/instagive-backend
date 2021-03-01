@@ -6,19 +6,27 @@ const Request = require('../model/requestModel');
 exports.login = async (req, res) => {
  
 
+console.log(req.body)
+
+
   const admin = await Admin.findOne({
     username: req.body.username,
     password: req.body.password,
   });
 
-  if (!admin) return res.status(404).send('Wrong Credentials');
+if (!admin) return res.send({valid: 'CREDENTIALS NOT FOUND!'});
+
+
+
+
+
 
   const id = admin._id;
 
-  const jwtToken = jwt.sign({ id }, process.env.jwtPrivateKey);
+  const token = jwt.sign({ id }, process.env.jwtPrivateKey);
 
 
-  res.header('admin', jwtToken).send('Success');
+  res.send({valid: true, token});
 };
 
 
@@ -48,19 +56,20 @@ exports.login = async (req, res) => {
 
 
 exports.getAllAccounts = async (req, res) => {
-  const approved = Request.find({
-    accountStatus: 'approved',
+  console.log('All Accounts Admin')
+  const approved = await Request.find({
+    accountStatus:  'approved',
   });
 
-  const pending = Request.find({
+  const pending = await Request.find({
     accountStatus: 'pending',
   });
 
-  const deleted = Request.find({
-    accountStatus: 'deleted',
+  const rejected = await Request.find({
+    accountStatus: 'rejected',
   });
-
-  res.send({ approved, pending, deleted });
+  
+res.send({pending, approved, rejected})
 };
 
 
@@ -70,9 +79,17 @@ exports.getAllAccounts = async (req, res) => {
 
 
 exports.changeAccountStatus = async (req, res) => {
+  console.log(req.params.status)
+ 
   const userId = req.params.userId;
 
-  const updateStatus = Request.findByIdAndUpdate(userId, {
+  const updateStatus = await Request.findByIdAndUpdate(userId, {
     accountStatus: req.params.status,
   });
+
+
+
+
+  res.send('updated')
+
 };

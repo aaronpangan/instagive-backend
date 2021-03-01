@@ -14,16 +14,16 @@ exports.login = async (req, res) => {
     password: req.body.password,
   });
 
-  if (!user) return res.status(404).send('Credentials Error!');
+  if (!user) return res.send({valid: 'Credentials Error'});
 
   if (user.accountStatus != 'approved')
-    return res.status(401).send('Your Account Is still under review');
+    return res.send({valid: 'Your account is still under review'});
 
   const id = user._id;
 
-  const jwtToken = jwt.sign({ id }, process.env.jwtPrivateKey);
+  const token = jwt.sign({ id }, process.env.jwtPrivateKey);
 
-  res.header('user', jwtToken).status(200).send('Success');
+  res.status(200).send({valid: true, token});
 };
 
 // exports.logout = async (req, res) => {
@@ -47,11 +47,14 @@ exports.requestAccount = async (req, res) => {
     orgDescriptions,
   } = req.body;
 
+
+
+
   const user = await Request.findOne({
     email: req.body.email,
   });
 
-  if (user) return res.status(500).send('Email Already Exist');
+  if (user) return res.status(400).send('Email Already Exist');
 
   let documents = [];
 
@@ -123,8 +126,7 @@ exports.requestAccount = async (req, res) => {
     }
   });
 
-  console.log(req.body);
-  res.send(req.files);
+  res.send('Success');
 };
 
 // Change Password

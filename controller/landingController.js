@@ -4,7 +4,7 @@ const Updates = require('../model/updatesModel');
 // Landing Page
 exports.landingPage = async (req, res) => {
   const post = await Post.find();
-
+console.log('All post Landing')
   res.send(post);
 };
 

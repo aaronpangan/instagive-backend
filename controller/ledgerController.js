@@ -8,8 +8,23 @@ exports.allRecord = async (req, res) => {
     userId: req.params.userId,
   });
 
+
+
+  
   res.send(record);
+
+
+
 };
+
+
+
+
+
+
+
+
+
 
 exports.addRecord = async (req, res) => {
   const userId = req.params.userId;

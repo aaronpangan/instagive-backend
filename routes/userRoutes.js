@@ -31,4 +31,41 @@ router.post('/login', login);
 router.post('/changepassword', [ verifyToken], changePassword);
 router.post('/forgotPassword', forgotPassword);
 
+
+
+//Check if token is valid route 
+
+
+
+
+const Request = require('../model/requestModel')
+
+router.post('/checkusertoken', [verifyToken] , async (req, res) => {
+
+
+const token = req.user;
+
+const checkUser = await Request.findById(token);
+
+if(!checkUser) res.send({valid: 'The Token is Invalid'})
+
+
+
+
+res.send({valid: true, repName: checkUser.repName})
+
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
 module.exports = router;
