@@ -4,8 +4,11 @@ const Post = require('../model/postModel');
 const Request = require('../model/requestModel');
 
 exports.allRecord = async (req, res) => {
+  
+  
+  
   const record = await Ledger.find({
-    userId: req.params.userId,
+    userId: req.user.id,
   });
 
 
@@ -27,8 +30,10 @@ exports.allRecord = async (req, res) => {
 
 
 exports.addRecord = async (req, res) => {
-  const userId = req.params.userId;
   const postId = req.params.postId;
+  const amount = await Post.findById(postId);
+
+  const userId = amount.User;
 
   const record = new Ledger({
     userId,
@@ -45,7 +50,6 @@ exports.addRecord = async (req, res) => {
   await record.save();
 
   // Adding Total Amount and Total Donors in post
-  const amount = await Post.findById(postId);
 
   const pushCurrentAmount = await Post.findByIdAndUpdate(postId, {
     currentAmount: amount.currentAmount + req.body.amount,
@@ -62,6 +66,23 @@ exports.addRecord = async (req, res) => {
   });
 
   await pushTotalDonors.save();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   res.send(record);
 };

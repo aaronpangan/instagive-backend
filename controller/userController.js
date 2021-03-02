@@ -131,31 +131,57 @@ exports.requestAccount = async (req, res) => {
 
 // Change Password
 
+
+
+
+
+
+
+
 exports.changePassword = async (req, res) => {
   const userId = req.user.id;
 
+
   const checkOldPassword = await Request.findById(userId);
 
-  if (req.body.oldPassword !== checkOldPassword.password)
-    return res.status(500).send('Wrong Old Password!');
+  if (req.body.oldPass !== checkOldPassword.password)
+    return res.send({valid: false});
+
+
 
   const user = await Request.findByIdAndUpdate(userId, {
-    password: req.body.newPassword,
+    password: req.body.newPass,
   });
 
   await user.save();
 
-  res.send('Password Successfuly Changed');
+
+  res.send({valid: true});
 };
+
+
+
+
+
+
+
+
+
 
 // Forgot Password
 
 exports.forgotPassword = async (req, res) => {
+  
+
+  const email = req.body.email;
+  console.log(email)
   const userEmail = await Request.findOne({
-    email: req.body.email,
+   email
   });
 
-  if (!userEmail) return res.status(500).send('Email Not Found');
+
+
+  if (!userEmail) return res.send({valid: false})
 
   const newPassword = mongoose.Types.ObjectId();
 
@@ -168,7 +194,7 @@ exports.forgotPassword = async (req, res) => {
   // Change this to user email
   let mailContent = {
     from: 'instagive2021@gmail.com',
-    to: 'instagive2021@gmail.com',
+    to: email,
     subject: `Instagive Pampanga - Change Password`,
     html: `<h1>Your Temporary Password is:  ${newPassword}</h1>
       <h2>Please change it after you Logged in. Thank You!</h2>
@@ -183,5 +209,5 @@ exports.forgotPassword = async (req, res) => {
     }
   });
 
-  res.send('Temporary Password sent to email');
+  res.send({valid: true});
 };

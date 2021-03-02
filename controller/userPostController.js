@@ -12,7 +12,14 @@ exports.getUserPost = async (req, res) => {
     User: req.user.id,
   });
 
+
+
+
+
   res.send(userPost);
+
+
+
 };
 
 

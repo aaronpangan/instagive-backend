@@ -17,10 +17,21 @@ const upload = require('../middleware/postMulter');
 // VERIFY JWT IN ALL THESE ROUTES
 
 
-router.get('/userpost', [verifyToken], getUserPost);
+router.post('/userpost', [verifyToken], getUserPost);
+
+
+
 
 
 router.get('/userpost/:postId', [verifyToken], getDetailPost);
+
+
+
+
+
+
+
+
 
 // Creating a post
 router.post(

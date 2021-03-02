@@ -9,12 +9,14 @@ const router = express.Router();
 const verifyToken = require('../middleware/verifyToken');
 
 // Fetch all records
-router.get('/:userId', [verifyToken], allRecord);
+router.get('/getall', [verifyToken], allRecord);
 
-// Delete Update must pass the Id of the Uodate
-router.post('/:userId/:postId', [verifyToken], addRecord);
+// Add Record
+router.post('/:postId', [verifyToken], addRecord);
 
-//  View all updates
+
+
+// Delete a record
 router.delete('/:recordId/', [verifyToken], deleteRecord);
 
 module.exports = router;
