@@ -6,11 +6,31 @@ exports.viewAllUpdate = async (req, res) => {
   const update = await Updates.find({
     PostId: req.params.postId,
   });
-
+  console.log('From Update Controller')
   res.send(update);
 };
 
 // View single update || user Side
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 exports.viewUpdate = async (req, res) => {
   const update = await Updates.findById(req.params.updateId);

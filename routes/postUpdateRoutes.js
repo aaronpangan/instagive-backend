@@ -27,7 +27,7 @@ router.delete('/:postId/:updateId', [ verifyToken],
 deleteUpdates);
 
 //  View all updates
-router.get('/:postId/',  [ verifyToken],
+router.post('/getall/:postId/',  [ verifyToken],
 viewAllUpdate )
 
 
