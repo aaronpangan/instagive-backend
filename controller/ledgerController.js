@@ -11,7 +11,7 @@ exports.allRecord = async (req, res) => {
     userId: req.user.id,
   });
 
-
+console.log('Get all Ledger')
 
   
   res.send(record);
@@ -30,12 +30,13 @@ exports.allRecord = async (req, res) => {
 
 
 exports.addRecord = async (req, res) => {
+
   const postId = req.params.postId;
   const amount = await Post.findById(postId);
 
   const userId = amount.User;
 
-  const record = new Ledger({
+  const record = await new Ledger({
     userId,
     postId,
     donorName: req.body.donorName,
@@ -66,19 +67,6 @@ exports.addRecord = async (req, res) => {
   });
 
   await pushTotalDonors.save();
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

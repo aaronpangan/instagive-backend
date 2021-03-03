@@ -9,7 +9,7 @@ const router = express.Router();
 const verifyToken = require('../middleware/verifyToken');
 
 // Fetch all records
-router.get('/getall', [verifyToken], allRecord);
+router.post('/getall', [verifyToken], allRecord);
 
 // Add Record
 router.post('/:postId', [verifyToken], addRecord);
