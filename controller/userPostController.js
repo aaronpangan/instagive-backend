@@ -12,18 +12,8 @@ exports.getUserPost = async (req, res) => {
     User: req.user.id,
   });
 
-
-
-
-
   res.send(userPost);
-
-
-
 };
-
-
-
 
 // View full post upon clicking
 exports.getDetailPost = async (req, res) => {
@@ -31,16 +21,6 @@ exports.getDetailPost = async (req, res) => {
 
   res.send(post);
 };
-
-
-
-
-
-
-
-
-
-
 
 exports.createPost = async (req, res) => {
   // req.user or below
@@ -80,6 +60,34 @@ exports.createPost = async (req, res) => {
   res.send(post);
 };
 
+// Edit post title or description / Can't be empty
+exports.editText = async (req, res) => {
+  const { Title, description, donationType, location } = req.body;
+
+  const post = await Post.findByIdAndUpdate(
+    req.params.postId,
+    {
+      Title,
+      description,
+      donationType,
+      location,
+    },
+    { new: true }
+  );
+
+  await post.save();
+
+  console.log(post);
+
+  res.send(post);
+};
+
+
+
+
+
+
+
 
 
 
@@ -117,24 +125,6 @@ exports.deletePost = async (req, res) => {
   await pushNumberOfPost.save();
 
   res.send('Deleted Successfully');
-};
-
-// Edit post title or description / Can't be empty
-exports.editText = async (req, res) => {
-  const post = await Post.findByIdAndUpdate(
-    req.params.postId,
-    {
-      Title: req.body.title,
-      description: req.body.description,
-    },
-    { new: true }
-  );
-
-  await post.save();
-
-  console.log(post);
-
-  res.send(post);
 };
 
 // Edit the post profile picture / Can't be empty

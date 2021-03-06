@@ -51,26 +51,35 @@ router.delete('deletepost/:postId', [verifyToken], deletePost);
 
 
 // Edit title/description
-router.put('/edittext/:postId', [verifyToken], editText);
+router.put('/edit/:postId', [verifyToken], editText);
 
-// Edit post main picture / Can't be empty
-router.put(
-  '/editprofilepic/:postId',
-  [verifyToken],
 
-  upload.single('imagePost'),
-  editProfilePic
-);
 
-// Add reference picture (Carousel)
-router.post(
-  '/addrefpic/:postId',
-  [verifyToken],
-  upload.array('imageList'),
-  addRefPic
-);
 
-// Delete a reference picture
-router.put('/deleterefpic/:postId/:picId', [verifyToken], deleteRefPic);
+
+
+
+
+
+
+// // Edit post main picture / Can't be empty
+// router.put(
+//   '/editprofilepic/:postId',
+//   [verifyToken],
+
+//   upload.single('imagePost'),
+//   editProfilePic
+// );
+
+// // Add reference picture (Carousel)
+// router.post(
+//   '/addrefpic/:postId',
+//   [verifyToken],
+//   upload.array('imageList'),
+//   addRefPic
+// );
+
+// // Delete a reference picture
+// router.put('/deleterefpic/:postId/:picId', [verifyToken], deleteRefPic);
 
 module.exports = router;

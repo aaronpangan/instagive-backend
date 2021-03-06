@@ -3,11 +3,25 @@ const mongoose = require('mongoose');
 const donateSchema = new mongoose.Schema({
   PostId: mongoose.ObjectId,
   dateDonated: Date,
-  certrificate: String,
-  name: String,
+  name:{
+
+    type: String,
+    default: 'Anonymous'
+
+  },
   amount: Number,
-  message: String,
-  email: String
+  message:{
+
+    type: String,
+    default: 'No Message'
+
+  },
+ 
+  
+  email: {
+    type: String,
+    default: ''
+  }
 });
 
 const Donate = mongoose.model('donate', donateSchema);

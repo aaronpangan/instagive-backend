@@ -26,25 +26,55 @@ exports.donate = async (req, res) => {
     },
     { new: true }
   );
-  await newPost.save();
+
+
+  console.log(req.body)
+   await newPost.save();
 
   // For Adding Donor List in USer
   const user = await Request.findById(post.User);
 
+
+
   const newDonorUser = user.totalDonors + 1;
 
-  const pushNewDonorUser = await Request.findByIdAndUpdate({
+  
+  const pushNewDonorUser = await Request.findByIdAndUpdate(post.User,{
     totalDonors: newDonorUser,
   });
 
   await pushNewDonorUser.save();
+
+
+  const donate = new Donate({
+    PostId: id,
+    dateDonated: Date.now(),
+    name: name ==='' ? 'Anonymous' : req.body.name,
+    amount,
+    message: message ==='' ? 'No Message' : req.body.message,
+    email,
+  });
+  await donate.save();
+
+
+ 
+
+
+
+
+
+
+
+
+
+  if(req.body.email !== '') {
 
   const doc = new pdf({
     layout: 'landscape',
     size: 'A4',
   });
 
-  const Dname = name;
+  const Dname = donate.name;
 
   doc.pipe(
     fs.createWriteStream(
@@ -63,11 +93,11 @@ exports.donate = async (req, res) => {
     align: 'center',
   });
 
-  doc.fontSize(30).text('Sample Charity Org', 76, 350, {
+  doc.fontSize(30).text(`${post.Title}`, 76, 350, {
     align: 'center',
   });
 
-  doc.fontSize(22).text('Sample Representative Name', 370, 430, {
+  doc.fontSize(22).text(`${user.orgName}`, 370, 430, {
     align: 'center',
   });
 
@@ -79,10 +109,10 @@ exports.donate = async (req, res) => {
 
   let mailOptions = {
     from: 'instagive2021@gmail.com',
-    to: 'instagive2021@gmail.com',
+    to: email,
     subject: `Certificate: ${email}`,
-    html: `<h2>Thank you for Donating ${name}, Here is your Certificate</h2>
-     >
+    html: `<h2>Thank you for Donating ${Dname}, Here is your Certificate</h2>
+     
   
   
       `,
@@ -102,20 +132,23 @@ exports.donate = async (req, res) => {
     }
   });
 
-  const donate = new Donate({
-    PostId: id,
-    dateDonated: Date.now(),
-    certrificate: `${path.dirname(
-      require.main.filename
-    )}/public/certificate/${Dname}.pdf`,
-    name: name,
-    amount: amount,
-    message: message,
-    email: email,
-  });
+  }
 
-  await donate.save();
 
-  console.log(donate);
+
+
+
+
+
+
+
+  // certrificate: `${path.dirname(
+  //   require.main.filename
+  // )}/public/certificate/${Dname}.pdf`,
+
+
+
+
+
   res.send(donate);
 };

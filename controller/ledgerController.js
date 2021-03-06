@@ -120,7 +120,9 @@ exports.addRecord = async (req, res) => {
     });
   
     doc.end();
-  
+    
+
+
     let mailOptions = {
       from: 'instagive2021@gmail.com',
       to: req.body.email,
