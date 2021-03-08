@@ -39,8 +39,6 @@ exports.addRecord = async (req, res) => {
   const postId = req.params.postId;
   
   
-  
-  
   const amount = await Post.findById(postId);
   
   const userId = amount.User;
@@ -57,7 +55,12 @@ exports.addRecord = async (req, res) => {
     date: req.body.date,
   });
   
+  
+  
+  
+  
   await record.save();
+  console.log(record)
   
   // Adding Total Amount and Total Donors in post
 

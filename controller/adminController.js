@@ -2,9 +2,10 @@ const jwt = require('jsonwebtoken');
 const Admin = require('../model/adminModel');
 const Request = require('../model/requestModel');
 
+const { transporter } = require('../utility/nodeMailer');
 // Admin Login
 exports.login = async (req, res) => {
- 
+
 
 console.log(req.body)
 
@@ -88,6 +89,25 @@ exports.changeAccountStatus = async (req, res) => {
   });
 
 
+  await updateStatus.save()
+
+
+  let mailContent = {
+    from: 'instagive2021@gmail.com',
+    to: updateStatus.email,
+    subject: `InstaGive Pampanga`,
+    html: `<h1>Thank for your registering in Instagive </h1>
+      <h2>We pleased to inform you that your application has been ${req.params.status}</h2>
+    `,
+  };
+
+  transporter.sendMail(mailContent, (err, info) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('MESSAGE SENT!!');
+    }
+  });
 
 
   res.send('updated')
