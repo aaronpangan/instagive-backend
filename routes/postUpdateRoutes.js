@@ -15,12 +15,12 @@ const  verifyToken  = require('../middleware/verifyToken');
 
 // Create Update
 router.post(
-  '/:postId', [ verifyToken],
+  '/:postId', 
 
-  upload.array('imageList'),
+  upload.array('imageList'),[ verifyToken] ,
 
   addupdates
-);
+  );
 
 // Delete Update must pass the Id of the Uodate
 router.delete('/:postId/:updateId', [ verifyToken],

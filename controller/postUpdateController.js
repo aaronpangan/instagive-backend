@@ -5,7 +5,7 @@ const Post = require('../model/postModel');
 exports.viewAllUpdate = async (req, res) => {
   const update = await Updates.find({
     PostId: req.params.postId,
-  });
+  }).sort({datePosted: 'desc'});
   console.log('From Update Controller')
   res.send(update);
 };
@@ -65,6 +65,11 @@ exports.addupdates = async (req, res) => {
   });
 
   await pushUpdate.save();
+
+
+
+  console.log('Update Successfully Added!')
+
 
   res.send('Update Added Successfuly');
 };

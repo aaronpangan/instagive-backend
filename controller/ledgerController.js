@@ -6,7 +6,7 @@ const path = require('path');
 const pdf = require('pdfkit');
 const { transporter } = require('../utility/nodeMailer');
 
-
+const Donate = require('../model/donateModel')
 
 
 exports.allRecord = async (req, res) => {
@@ -15,7 +15,7 @@ exports.allRecord = async (req, res) => {
   
   const record = await Ledger.find({
     userId: req.user.id,
-  });
+  }).sort({dateNow: 'desc'});
 
 console.log('Get all Ledger')
 
@@ -46,7 +46,7 @@ exports.addRecord = async (req, res) => {
   const record = await new Ledger({
     userId,
     postId,
-    donorName: req.body.donorName,
+    donorName: req.body.donorName === '' ? 'Anonymous' :req.body.donorName,
     email: req.body.email === '' ? 'None' : req.body.email,
     donationType: req.body.donationType,
     paymentAddress: req.body.paymentAddress,
@@ -64,12 +64,63 @@ exports.addRecord = async (req, res) => {
   
   // Adding Total Amount and Total Donors in post
 
+
+  if(req.body.donationType === 'Cash') {
+  
   const pushCurrentAmount = await Post.findByIdAndUpdate(postId, {
     currentAmount: amount.currentAmount + parseInt(req.body.amount),
     totalDonors: amount.totalDonors + 1,
   });
   
   await pushCurrentAmount.save();
+
+  const cashDonate = await new Donate({
+
+    PostId: postId,
+    amount: req.body.amount,
+    message: req.body.remarks ==='' ? 'No Message' : req.body.remarks,
+    dateDonated: req.body.date,
+    name: req.body.donorName ==='' ? 'Anonymous' : req.body.donorName,
+
+  })
+
+
+  await cashDonate.save()
+
+
+}
+
+else if (req.body.donationType === 'In-Kind'){
+
+  const pushItem = await Post.findByIdAndUpdate(postId, {
+    totalDonors: amount.totalDonors + 1,
+  });
+
+  
+  await pushItem.save();
+
+  const cashDonate = await new Donate({
+
+    PostId: postId,
+    amount: req.body.amount,
+    message: req.body.remarks ==='' ? 'No Message' : req.body.remarks,
+    dateDonated: req.body.date,
+    name: req.body.donorName ==='' ? 'Anonymous' : req.body.donorName,
+    donationType: req.body.donationType,
+    itemQuantity: amount.itemQuantity + parseInt(req.body.amount)
+
+
+  })
+
+
+
+
+
+}
+  
+
+
+
   
   // Adding Total Donors in the request account
   const donors = await Request.findById(userId);
@@ -81,6 +132,25 @@ exports.addRecord = async (req, res) => {
   await pushTotalDonors.save();
   
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
   
   if(req.body.email !== ''){
@@ -91,7 +161,7 @@ exports.addRecord = async (req, res) => {
       size: 'A4',
     });
   
-    const Dname = req.body.donorName;
+    const Dname = req.body.donorName === '' ? 'Anonymous' : req.body.donorName;
   
     doc.pipe(
       fs.createWriteStream(

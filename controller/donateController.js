@@ -6,6 +6,38 @@ const Donate = require('../model/donateModel');
 const pdf = require('pdfkit');
 const Request = require('../model/requestModel');
 
+
+
+
+
+
+
+
+
+exports.getDonate = async (req, res) => {
+
+
+  const PostId = req.params.postId;
+
+  
+  const userDonates = await Donate.find({
+    PostId
+  }).sort({dateNow: 'desc'})
+
+
+
+  res.send(userDonates);
+
+
+
+
+
+}
+
+
+
+
+
 // For donating, get the post ID first
 
 exports.donate = async (req, res) => {
@@ -28,12 +60,10 @@ exports.donate = async (req, res) => {
   );
 
 
-  console.log(req.body)
    await newPost.save();
 
   // For Adding Donor List in USer
   const user = await Request.findById(post.User);
-
 
 
   const newDonorUser = user.totalDonors + 1;
@@ -52,7 +82,7 @@ exports.donate = async (req, res) => {
     name: name ==='' ? 'Anonymous' : req.body.name,
     amount,
     message: message ==='' ? 'No Message' : req.body.message,
-    email,
+    email : email === '' ? 'No Email' : req.body.email
   });
   await donate.save();
 
@@ -148,7 +178,7 @@ exports.donate = async (req, res) => {
 
 
 
-
+console.log('Payment Received')
 
   res.send(donate);
 };

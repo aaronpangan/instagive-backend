@@ -10,7 +10,10 @@ const ledgerSchema = new mongoose.Schema({
   amount: Number,
   remarks: String,
   date: String,
-
+  dateNow: {
+    type: Date ,
+    default: Date.now
+  }
 
   
 });

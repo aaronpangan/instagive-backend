@@ -21,7 +21,21 @@ const donateSchema = new mongoose.Schema({
   email: {
     type: String,
     default: ''
-  }
+  },
+
+  donationType: {
+    type: String,
+    default: 'Cash'
+  },
+
+
+
+    dateNow: {
+      type: Date,
+      default: Date.now
+
+
+    }
 });
 
 const Donate = mongoose.model('donate', donateSchema);

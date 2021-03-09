@@ -6,9 +6,6 @@ const jwt = require('jsonwebtoken');
 module.exports = (req, res, next) => {
   const token = req.body.token;
   console.log('verified')
-
-
-
 if(!token) return res.status(500).send('Missing Token!')
 
   try {

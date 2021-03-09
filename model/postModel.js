@@ -12,7 +12,13 @@ const postSchema = new mongoose.Schema({
   location: String,
   totalDonors: Number,
   totalUpdates: Number,
-  donationType: String
+  donationType: String,
+  itemQuantity: {
+    type: Number,
+    default: 0
+
+  }
+
 });
 
 const Post = mongoose.model('post', postSchema);
