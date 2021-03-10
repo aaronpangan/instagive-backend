@@ -1,6 +1,15 @@
 const Updates = require('../model/updatesModel');
 const Post = require('../model/postModel');
 
+
+
+
+
+
+
+
+
+
 // Get all updates of a post
 exports.viewAllUpdate = async (req, res) => {
   const update = await Updates.find({
@@ -8,6 +17,10 @@ exports.viewAllUpdate = async (req, res) => {
   }).sort({datePosted: 'desc'});
   console.log('From Update Controller')
   res.send(update);
+
+
+
+
 };
 
 // View single update || user Side
@@ -38,6 +51,12 @@ exports.viewUpdate = async (req, res) => {
   res.send(update);
 };
 
+
+
+
+
+
+
 // Add Updates (Org Side) Needs Post ID
 
 exports.addupdates = async (req, res) => {
@@ -53,7 +72,7 @@ exports.addupdates = async (req, res) => {
     PostId: postId,
     datePosted: Date.now(),
     imageList: imageList,
-    description: req.body.updateDescription,
+    description: req.body.description,
   });
 
   await updates.save();

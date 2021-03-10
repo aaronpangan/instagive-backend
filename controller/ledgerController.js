@@ -92,14 +92,31 @@ exports.addRecord = async (req, res) => {
 
 else if (req.body.donationType === 'In-Kind'){
 
+
+
+
+
+
+
+
+
   const pushItem = await Post.findByIdAndUpdate(postId, {
     totalDonors: amount.totalDonors + 1,
+    itemQuantity: amount.itemQuantity + parseInt(req.body.amount),
+
   });
 
   
   await pushItem.save();
 
-  const cashDonate = await new Donate({
+
+console.log(amount.itemQuantity + parseInt(req.body.amount))
+
+  const itemDonate = await new Donate({
+
+
+  
+
 
     PostId: postId,
     amount: req.body.amount,
@@ -107,12 +124,12 @@ else if (req.body.donationType === 'In-Kind'){
     dateDonated: req.body.date,
     name: req.body.donorName ==='' ? 'Anonymous' : req.body.donorName,
     donationType: req.body.donationType,
-    itemQuantity: amount.itemQuantity + parseInt(req.body.amount)
+    email: req.body.email === '' ? 'None' : req.body.email,
 
 
   })
 
-
+  await itemDonate.save()
 
 
 

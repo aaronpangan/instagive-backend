@@ -13,6 +13,15 @@ const  verifyToken  = require('../middleware/verifyToken');
 
 
 
+
+//  View all updates
+router.post('/getall/:postId/',  [ verifyToken],
+viewAllUpdate )
+
+
+
+
+
 // Create Update
 router.post(
   '/:postId', 
@@ -26,9 +35,7 @@ router.post(
 router.delete('/:postId/:updateId', [ verifyToken],
 deleteUpdates);
 
-//  View all updates
-router.post('/getall/:postId/',  [ verifyToken],
-viewAllUpdate )
+
 
 
 // view update
