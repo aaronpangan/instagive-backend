@@ -25,6 +25,9 @@ exports.getDetailPost = async (req, res) => {
 exports.createPost = async (req, res) => {
   // req.user or below
 
+  
+
+
   const id = req.user.id;
   let imageList = [];
   if (req.files['imageList']) {

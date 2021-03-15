@@ -16,7 +16,7 @@ const upload = require('../middleware/requestAccountMulter');
 router.post(
   '/register',  
   upload.fields([
-    { name: 'orgPhoto' },
+
     { name: 'repId' },
     { name: 'orgDocuments' },
   ]),

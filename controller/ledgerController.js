@@ -49,7 +49,7 @@ exports.addRecord = async (req, res) => {
     donorName: req.body.donorName === '' ? 'Anonymous' :req.body.donorName,
     email: req.body.email === '' ? 'None' : req.body.email,
     donationType: req.body.donationType,
-    paymentAddress: req.body.paymentAddress,
+    paymentAddress: req.body.paymentAddress === '' ? 'None' : req.body.paymentAddress,
     amount: req.body.amount,
     remarks: req.body.remarks,
     date: req.body.date,
@@ -91,12 +91,6 @@ exports.addRecord = async (req, res) => {
 }
 
 else if (req.body.donationType === 'In-Kind'){
-
-
-
-
-
-
 
 
 

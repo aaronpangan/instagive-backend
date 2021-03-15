@@ -37,7 +37,7 @@ router.get('/userpost/:postId', [verifyToken], getDetailPost);
 router.post(
   '/createpost',
   [upload.fields([{ name: 'profilePic' }, { name: 'imageList' }]) ,verifyToken,],
- createPost
+ (createPost)
 );
 // Delete full post
 router.delete('deletepost/:postId', [verifyToken], deletePost);

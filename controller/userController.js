@@ -69,10 +69,6 @@ exports.requestAccount = async (req, res) => {
     };
   });
 
-  docs.push({
-    filename: req.files['orgPhoto'][0].filename,
-    path: req.files['orgPhoto'][0].path,
-  });
 
   docs.push({
     filename: req.files['repId'][0].filename,
@@ -86,7 +82,6 @@ exports.requestAccount = async (req, res) => {
     city: city,
     orgName: orgName,
     orgAddress: orgAddress,
-    orgPhoto: req.files['orgPhoto'][0].filename,
     orgNumber: orgNumber,
     repName: repName,
     repId: req.files['repId'][0].filename,
@@ -103,14 +98,14 @@ exports.requestAccount = async (req, res) => {
     from: 'instagive2021@gmail.com',
     to: 'instagive2021@gmail.com',
     subject: ` REQUESTING ACCOUNT: ${email}`,
-    html: `<h2>${email}</h2>
-      <h2>${orgName}</h2>
-      <h2> ${orgAddress} </h2>
-      <h2> ${orgNumber} </h2>
-      <h2> ${city} </h2>
-      <h2> ${repName} </h2>
-      <h2> ${orgDescriptions} </h2>
-  
+    html: `<h2>Email: ${email}</h2>
+      <h2>Organization Name: ${orgName}</h2>
+      <h2>Address: ${orgAddress} </h2>
+      <h2>Contact #: ${orgNumber} </h2>
+      <h2>City: ${city} </h2>
+      <h2>Representative Name: ${repName} </h2>
+      <h2>Organization Description: ${orgDescriptions} </h2>
+      
   
   
   
