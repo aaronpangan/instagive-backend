@@ -11,10 +11,14 @@ const ledgerSchema = new mongoose.Schema({
   remarks: String,
   date: String,
   dateNow: {
-    type: Date ,
-    default: Date.now
-  }
+    type: String ,
+  },
+  status: {
+    type: String,
+    default: 'Pending'
 
+  }
+  
   
 });
 

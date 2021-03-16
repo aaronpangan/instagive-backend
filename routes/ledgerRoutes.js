@@ -3,6 +3,8 @@ const {
     allRecord,
     addRecord,
     deleteRecord,
+    donateButton,
+    changeStatus,
 } = require('../controller/ledgerController');
 const router = express.Router();
 
@@ -11,8 +13,17 @@ const verifyToken = require('../middleware/verifyToken');
 // Fetch all records
 router.post('/getall', [verifyToken], allRecord);
 
-// Add Record
+
 router.post('/:postId', [verifyToken], addRecord);
+
+router.post('/pending/:postId', [verifyToken], donateButton);
+
+router.post('/:ledgerId/:status', [verifyToken], changeStatus);
+
+
+
+
+
 
 
 
