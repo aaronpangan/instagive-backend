@@ -168,7 +168,7 @@ exports.donateButton = async (req, res) => {
     postId,
     donorName: req.body.donorName === '' ? 'Anonymous' : req.body.donorName,
     email: req.body.email === '' ? 'None' : req.body.email,
-    donationType: req.body.donationType,
+    donationType: amount.donationType === 'Both' ? req.body.donationType : amount.donationType,
     paymentAddress:
       req.body.paymentAddress === '' ? 'None' : req.body.paymentAddress,
     amount: req.body.amount,
@@ -177,7 +177,14 @@ exports.donateButton = async (req, res) => {
     status: "Pending"
   });
 
+
+
+
+  
       await record.save();
+      console.log(record)
+res.send('Success!')
+
 }
 
 

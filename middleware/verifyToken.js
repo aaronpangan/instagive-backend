@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 //  Check if the login is the one stored in jwt
 module.exports = (req, res, next) => {
   const token = req.body.token;
-  console.log('verified')
+  console.log(token)
 if(!token) return res.status(500).send('Missing Token!')
 
   try {
