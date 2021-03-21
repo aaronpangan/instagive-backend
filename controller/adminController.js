@@ -103,3 +103,36 @@ exports.userPost = async (req, res) => {
 
   res.send(userPost);
 };
+
+
+
+exports.changePostStatus = async (req, res) =>{
+
+
+const postStatus = await Post.findByIdAndUpdate(req.params.postId, {
+
+  status: req.params.status
+
+})
+
+
+res.send(postStatus)
+
+
+}
+
+
+exports.changeLedgerStatus = async (req, res) => {
+
+
+const ledger = await Ledger.findByIdAndUpdate(req.params.ledgerId, {
+
+  status : req.params.status
+
+})
+
+  await ledger.save();
+
+  res.send(ledger)
+
+}
