@@ -6,6 +6,7 @@ const {
   getAllAccounts,
   changeAccountStatus,
   getAllPost,
+  getUserLedger
 } = require('../controller/adminController');
 const  verifyTokenAdmin  = require('../middleware/verifyTokenAdmin.');
 
@@ -23,6 +24,12 @@ router.get('/allpost', getAllPost)
 
 // Must past status [approved, pending, rejected]
 router.post('/changestatus/:userId/:status',  changeAccountStatus);
+
+
+router.post('/getuserledger/', getUserLedger)
+
+
+
 
 module.exports = router;
 

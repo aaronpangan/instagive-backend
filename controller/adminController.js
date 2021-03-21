@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const Admin = require('../model/adminModel');
+const Ledger = require('../model/ledgerModel');
 const Post = require('../model/postModel');
 const Request = require('../model/requestModel');
 
@@ -40,6 +41,13 @@ const post = await Post.find();
 
 
 res.send(post)
+
+
+
+
+
+
+
 }
 
 
@@ -120,3 +128,14 @@ exports.changeAccountStatus = async (req, res) => {
   res.send('updated')
 
 };
+
+
+exports.getUserLedger = async (req, res) => {
+
+  const ledger = await Ledger.find()
+
+  res.send(ledger)
+
+
+
+}

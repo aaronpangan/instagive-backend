@@ -8,6 +8,7 @@ const {
   editProfilePic,
   addRefPic,
   deleteRefPic,
+  changePostStatus,
 } = require('../controller/userPostController');
 const router = express.Router();
 
@@ -20,7 +21,7 @@ const upload = require('../middleware/postMulter');
 router.post('/userpost', [verifyToken], getUserPost);
 
 
-
+router.post('/poststatus/:postId/:status', verifyToken, changePostStatus) 
 
 
 router.get('/userpost/:postId', [verifyToken], getDetailPost);

@@ -69,8 +69,18 @@ exports.createPost = async (req, res) => {
 
 exports.changePostStatus = async (req, res) =>{
 
-  
+  const changePostStatus = await Post.findByIdAndUpdate(req.params.postId, {
 
+    status: req.params.status
+
+
+  })
+
+
+  await changePostStatus.save();
+
+
+  res.send(changePostStatus)
 
 
 }
