@@ -7,57 +7,27 @@ const Request = require('../model/requestModel');
 const { transporter } = require('../utility/nodeMailer');
 // Admin Login
 exports.login = async (req, res) => {
-
-
-console.log(req.body)
-
+  console.log(req.body);
 
   const admin = await Admin.findOne({
     username: req.body.username,
     password: req.body.password,
   });
 
-if (!admin) return res.send({valid: 'CREDENTIALS NOT FOUND!'});
-
-
-
-
-
+  if (!admin) return res.send({ valid: 'CREDENTIALS NOT FOUND!' });
 
   const id = admin._id;
 
   const token = jwt.sign({ id }, process.env.jwtPrivateKey);
 
-
-  res.send({valid: true, token});
+  res.send({ valid: true, token });
 };
 
+exports.getAllPost = async (req, res) => {
+  const post = await Post.find();
 
-
-
-exports.getAllPost = async (req, res) =>{
-
-const post = await Post.find();
-
-
-res.send(post)
-
-
-
-
-
-
-
-}
-
-
-
-
-
-
-
-
-
+  res.send(post);
+};
 
 //  Admin Logout
 // exports.logout = async (req, res) => {
@@ -66,15 +36,10 @@ res.send(post)
 //   else res.status(500).send('You are not login!');
 // };
 
-
-
-
-
-
 exports.getAllAccounts = async (req, res) => {
-  console.log('All Accounts Admin')
+  console.log('All Accounts Admin');
   const approved = await Request.find({
-    accountStatus:  'approved',
+    accountStatus: 'approved',
   });
 
   const pending = await Request.find({
@@ -84,28 +49,20 @@ exports.getAllAccounts = async (req, res) => {
   const rejected = await Request.find({
     accountStatus: 'rejected',
   });
-  
-res.send({pending, approved, rejected})
+
+  res.send({ pending, approved, rejected });
 };
 
-
-
-
-
-
-
 exports.changeAccountStatus = async (req, res) => {
-  console.log(req.params.status)
- 
+  console.log(req.params.status);
+
   const userId = req.params.userId;
 
   const updateStatus = await Request.findByIdAndUpdate(userId, {
     accountStatus: req.params.status,
   });
 
-
-  await updateStatus.save()
-
+  await updateStatus.save();
 
   let mailContent = {
     from: 'instagive2021@gmail.com',
@@ -124,32 +81,25 @@ exports.changeAccountStatus = async (req, res) => {
     }
   });
 
-
-  res.send('updated')
-
+  res.send('updated');
 };
 
-
 exports.getUserLedger = async (req, res) => {
+  const ledger = await Ledger.find();
 
-  const ledger = await Ledger.find()
+  res.send(ledger);
+};
 
-  res.send(ledger)
-
-
-
-}
-
-exports.userLedger = async (req, res) =>{
-
-
+exports.userLedger = async (req, res) => {
   const ledger = await Ledger.find({
+    userId: req.params.userId,
+  });
 
-    userId: req.params.userId
+  res.send(ledger);
+};
 
-  })
+exports.userPost = async (req, res) => {
+  const userPost = await Post.find({ User: req.params.userId });
 
-
-  res.send(ledger)
-
-}
+  res.send(userPost);
+};

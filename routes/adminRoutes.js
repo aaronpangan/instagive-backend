@@ -7,7 +7,8 @@ const {
   changeAccountStatus,
   getAllPost,
   getUserLedger,
-  userLedger
+  userLedger,
+  userPost
 } = require('../controller/adminController');
 const  verifyTokenAdmin  = require('../middleware/verifyTokenAdmin.');
 
@@ -20,6 +21,7 @@ router.get('/getusers',  getAllAccounts);
 
 
 router.get('/allpost', getAllPost)
+router.post('/userpost/:userId', userPost)
 
 
 
