@@ -11,7 +11,8 @@ const ledgerSchema = new mongoose.Schema({
   remarks: String,
   date: String,
   dateNow: {
-    type: String ,
+    type: Date,
+    default: Date.now
   },
   status: {
     type: String,

@@ -5,6 +5,7 @@ const {
  // logout,
   getAllAccounts,
   changeAccountStatus,
+  getAllPost,
 } = require('../controller/adminController');
 const  verifyTokenAdmin  = require('../middleware/verifyTokenAdmin.');
 
@@ -14,6 +15,9 @@ const  verifyTokenAdmin  = require('../middleware/verifyTokenAdmin.');
 router.post('/login', login);
 // router.post('/logout', logout);
 router.get('/getusers',  getAllAccounts);
+
+
+router.get('/allpost', getAllPost)
 
 
 

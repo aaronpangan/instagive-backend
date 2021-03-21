@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const Admin = require('../model/adminModel');
+const Post = require('../model/postModel');
 const Request = require('../model/requestModel');
 
 const { transporter } = require('../utility/nodeMailer');
@@ -33,7 +34,13 @@ if (!admin) return res.send({valid: 'CREDENTIALS NOT FOUND!'});
 
 
 
+exports.getAllPost = async (req, res) =>{
 
+const post = await Post.find();
+
+
+res.send(post)
+}
 
 
 

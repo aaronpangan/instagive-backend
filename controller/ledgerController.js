@@ -18,6 +18,12 @@ exports.allRecord = async (req, res) => {
   res.send(record);
 };
 
+
+
+
+
+
+
 exports.addRecord = async (req, res) => {
   const postId = req.params.postId;
 
@@ -173,7 +179,7 @@ exports.donateButton = async (req, res) => {
       req.body.paymentAddress === '' ? 'None' : req.body.paymentAddress,
     amount: req.body.amount,
     remarks: req.body.remarks,
-    dateNow: today,
+    date: today,
     status: "Pending"
   });
 
@@ -182,7 +188,7 @@ exports.donateButton = async (req, res) => {
 
   
       await record.save();
-      console.log(record)
+      console.log(today)
 res.send('Success!')
 
 }
@@ -223,7 +229,7 @@ exports.changeStatus = async (req, res) => {
     const donationType  = updateStatus.donationType;
 
     if (donationType === 'Cash') {
-      const pushCurrentAmount = await Post.findByIdAndUpdate(postId, {
+      const pushCurrentAmount = await Post.findByIdAndUpdate(updateStatus.postId, {
         currentAmount: amount.currentAmount + ledgerAmount,
         totalDonors: amount.totalDonors + 1,
       });
@@ -232,7 +238,7 @@ exports.changeStatus = async (req, res) => {
   
   
     } else if (donationType === 'In-Kind') {
-      const pushItem = await Post.findByIdAndUpdate(postId, {
+      const pushItem = await Post.findByIdAndUpdate(updateStatus.postId, {
         totalDonors: amount.totalDonors + 1,
         itemQuantity: amount.itemQuantity + ledgerAmount ,
       });

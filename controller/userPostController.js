@@ -63,6 +63,40 @@ exports.createPost = async (req, res) => {
   res.send(post);
 };
 
+
+
+
+
+exports.changePostStatus = async (req, res) =>{
+
+  
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Edit post title or description / Can't be empty
 exports.editText = async (req, res) => {
   const { Title, description, donationType, location } = req.body;

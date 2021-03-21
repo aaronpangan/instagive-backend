@@ -15,10 +15,12 @@ const postSchema = new mongoose.Schema({
   donationType: String,
   itemQuantity: {
     type: Number,
-    default: 0
-
-  }
-
+    default: 0,
+  },
+  status: {
+    type: String,
+    default: 'Pending',
+  },
 });
 
 const Post = mongoose.model('post', postSchema);
