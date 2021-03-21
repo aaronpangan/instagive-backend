@@ -62,7 +62,10 @@ exports.changeAccountStatus = async (req, res) => {
     accountStatus: req.params.status,
   });
 
-  await updateStatus.save();
+
+
+  const token = jwt.sign({ id: req.params.userId }, process.env.jwtPrivateKey);
+
 
   let mailContent = {
     from: 'instagive2021@gmail.com',
@@ -70,6 +73,7 @@ exports.changeAccountStatus = async (req, res) => {
     subject: `InstaGive Pampanga`,
     html: `<h1>Thank for your registering in Instagive </h1>
       <h2>We pleased to inform you that your application has been ${req.params.status}</h2>
+      <h2>Click the link to automatically log in   http://localhost:3000/login/email/${token}</h2>
     `,
   };
 
