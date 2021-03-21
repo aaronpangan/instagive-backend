@@ -139,3 +139,17 @@ exports.getUserLedger = async (req, res) => {
 
 
 }
+
+exports.userLedger = async (req, res) =>{
+
+
+  const ledger = await Ledger.find({
+
+    userId: req.params.userId
+
+  })
+
+
+  res.send(ledger)
+
+}
