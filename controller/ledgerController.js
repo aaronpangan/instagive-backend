@@ -53,7 +53,7 @@ exports.addRecord = async (req, res) => {
 
 
 
-i
+
   // Adding Total Amount and Total Donors in post
 
   if (req.body.donationType === 'Cash') {
