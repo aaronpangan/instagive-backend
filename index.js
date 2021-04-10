@@ -26,8 +26,8 @@ require('./startup/db')();
 
 const port = process.env.PORT || 3000;
 
-app.listen(5000, () => {
-  console.log(`Port started in http://localhost:5000`);
+app.listen(port, () => {
+  console.log(`Port started in http://localhost:${port}`);
 
 
 
