@@ -15,7 +15,7 @@ const  verifyToken  = require('../middleware/verifyToken');
 
 
 //  View all updates
-router.post('/getall/:postId/',  [ verifyToken],
+router.get('/getall/:postId/',
 viewAllUpdate )
 
 
