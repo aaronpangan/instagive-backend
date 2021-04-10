@@ -18,7 +18,7 @@ exports.login = async (req, res) => {
 
   const id = admin._id;
 
-  const token = jwt.sign({ id }, process.env.jwtPrivateKey);
+  const token = jwt.sign({ id }, '');
 
   res.send({ valid: true, token });
 };
@@ -64,7 +64,7 @@ exports.changeAccountStatus = async (req, res) => {
 
 
 
-  const token = jwt.sign({ id: req.params.userId }, process.env.jwtPrivateKey);
+  const token = jwt.sign({ id: req.params.userId }, 'secretkey');
 
 
   let mailContent = {

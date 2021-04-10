@@ -2,6 +2,7 @@ const Post = require('../model/postModel');
 const fs = require('fs');
 const { findById, findByIdAndDelete } = require('../model/postModel');
 const Request = require('../model/requestModel');
+const cloudinary = require('../utility/cloudinary')
 
 // DECODE JWT FIRST FOR THE USER ID
 
@@ -29,17 +30,44 @@ exports.createPost = async (req, res) => {
 
 
   const id = req.user.id;
+  let profilePic = ''
+  const imagelisturl = [];
+ 
+ 
   let imageList = [];
-  if (req.files['imageList']) {
-    req.files['imageList'].forEach((name) => imageList.push(name.filename));
-  }
+  try {
+    const result = await cloudinary.uploader.upload(req.files.profilePic[0].path);
+        profilePic = result.url
+        const uploader = async (path) => await cloudinary.uploader.upload(path);
+
+
+
+        for (const file of req.files['imageList']) {
+            const { path } = file;
+            const newPath = await uploader(path)
+            imageList.push(newPath.url)
+          }
+      
+          
+
+
+}
+    catch (err){
+        console.log(err)
+    }
+
+
+
+
+
+
 
   const post = await new Post({
     User: id,
     Title: req.body.Title,
     datePosted: Date.now(),
-    profilePic: req.files['profilePic'][0].filename,
-    imageList: imageList,
+    profilePic,
+    imageList,
     description: req.body.description,
     totalAmount: req.body.totalAmount,
     location: req.body.location,

@@ -1,6 +1,6 @@
 const Updates = require('../model/updatesModel');
 const Post = require('../model/postModel');
-
+const cloudinary = require('../utility/cloudinary')
 
 
 
@@ -63,10 +63,21 @@ exports.addupdates = async (req, res) => {
   const postId = req.params.postId;
 
   // check if there is image, otherwise return an emptry array
+  try {
+
+  const uploader = async (path) => await cloudinary.uploader.upload(path)
   let imageList = [];
-  if (req.files) {
-    req.files.forEach((name) => imageList.push(name.filename));
+ 
+  for (const file of req.files) {
+    const { path } = file;
+    const newPath = await uploader(path)
+    imageList.push(newPath.url)
   }
+}
+catch (err){
+    console.log(err)
+}
+
 
   const updates = await new Updates({
     PostId: postId,

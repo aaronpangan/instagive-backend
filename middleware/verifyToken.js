@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
 if(!token) return res.status(500).send('Missing Token!')
 
   try {
-    let decoded = jwt.verify(token, process.env.jwtPrivateKey);
+    let decoded = jwt.verify(token, 'secretkey');
     //created a new request, to be sent to next()
     req.user = decoded;
     next();

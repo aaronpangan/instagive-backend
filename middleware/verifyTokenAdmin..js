@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
 
 
   try {
-    let decoded = jwt.verify(token, process.env.jwtPrivateKey);
+    let decoded = jwt.verify(token, 'secretkey');
     //created a new request, to be sent to next()
     req.user = decoded;
     next();

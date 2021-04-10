@@ -21,7 +21,7 @@ exports.login = async (req, res) => {
 
   const id = user._id;
 
-  const token = jwt.sign({ id }, process.env.jwtPrivateKey);
+  const token = jwt.sign({ id }, 'secretkey');
 
   res.status(200).send({valid: true, token});
 };
