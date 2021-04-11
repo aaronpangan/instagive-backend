@@ -18,7 +18,7 @@ exports.login = async (req, res) => {
 
   const id = admin._id;
 
-  const token = jwt.sign({ id }, '');
+  const token = jwt.sign({ id }, 'secretkey');
 
   res.send({ valid: true, token });
 };
