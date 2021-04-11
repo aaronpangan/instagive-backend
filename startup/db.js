@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 module.exports = function() {
   mongoose
-    .connect('mongodb+srv://admin:admin@instagive.j2xlx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
+    .connect('mongodb+srv://admin:admin@instagive.j2xlx.mongodb.net/instagive?retryWrites=true&w=majority', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
