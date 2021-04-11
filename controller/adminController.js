@@ -73,7 +73,7 @@ exports.changeAccountStatus = async (req, res) => {
     subject: `InstaGive Pampanga`,
     html: `<h1>Thank for your registering in Instagive </h1>
       <h2>We pleased to inform you that your application has been ${req.params.status}</h2>
-      <h2>Click the link to automatically log in   https://instagive-frontend.herokuapp.com//login/email/${token}</h2>
+      <h2>Click the link to automatically log in   https://instagive-frontend.herokuapp.com/login/email/${token}</h2>
     `,
   };
 
