@@ -1,6 +1,7 @@
 const Updates = require('../model/updatesModel');
 const Post = require('../model/postModel');
-const cloudinary = require('../utility/cloudinary')
+const cloudinary = require('../utility/cloudinary');
+const { image } = require('../utility/cloudinary');
 
 
 
@@ -79,10 +80,12 @@ catch (err){
 }
 
 
+
+console.log(imageList)
   const updates = await new Updates({
     PostId: postId,
     datePosted: Date.now(),
-    imageList: imageList,
+    imageList,
     description: req.body.description,
   });
 
