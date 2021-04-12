@@ -64,10 +64,10 @@ exports.addupdates = async (req, res) => {
   const postId = req.params.postId;
 
   // check if there is image, otherwise return an emptry array
+  let imageList = [];
   try {
 
   const uploader = async (path) => await cloudinary.uploader.upload(path)
-  let imageList = [];
  
   for (const file of req.files) {
     const { path } = file;
@@ -81,7 +81,6 @@ catch (err){
 
 
 
-console.log(imageList)
   const updates = await new Updates({
     PostId: postId,
     datePosted: Date.now(),
