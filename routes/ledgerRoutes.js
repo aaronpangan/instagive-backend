@@ -14,7 +14,7 @@ const verifyToken = require('../middleware/verifyToken');
 router.post('/getall', [verifyToken], allRecord);
 
 
-router.post('/:postId', [verifyToken], addRecord);
+router.post('/:postId', [verifyToken], ((req, res) => {console.log(hello)}));
 
 router.post('/pending/:postId', [verifyToken], donateButton);
 
