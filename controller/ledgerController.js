@@ -25,6 +25,9 @@ exports.allRecord = async (req, res) => {
 
 
 exports.addRecord = async (req, res) => {
+  
+  console.log('Hi')
+
   const postId = req.params.postId;
 
   const amount = await Post.findById(postId);
