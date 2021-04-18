@@ -26,8 +26,6 @@ exports.allRecord = async (req, res) => {
 
 exports.addRecord = async (req, res) => {
   
-  console.log('Hi')
-
   const postId = req.params.postId;
 
   const amount = await Post.findById(postId);
@@ -115,7 +113,7 @@ exports.addRecord = async (req, res) => {
       align: 'center',
     });
 
-    doc.fontSize(30).text('Sample Charity Org', 76, 350, {
+    doc.fontSize(30).text(`${donors.orgName}`, 76, 350, {
       align: 'center',
     });
 
