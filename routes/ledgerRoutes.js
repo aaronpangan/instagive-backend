@@ -5,6 +5,7 @@ const {
     deleteRecord,
     donateButton,
     changeStatus,
+    getPostLedger,
 } = require('../controller/ledgerController');
 const router = express.Router();
 
@@ -13,6 +14,7 @@ const verifyToken = require('../middleware/verifyToken');
 // Fetch all records
 router.post('/getall', [verifyToken], allRecord);
 
+router.get('/getpostrecords/:postId' , getPostLedger )
 
 router.post('/:postId', [verifyToken], addRecord);
 

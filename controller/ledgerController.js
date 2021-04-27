@@ -19,7 +19,18 @@ exports.allRecord = async (req, res) => {
 };
 
 
+exports.getPostLedger = async (req, res) => {
 
+  const record = await Ledger.find({
+    postId: req.params.postId
+  }).sort({ dateNow: 'desc' });
+
+  console.log('Get all Ledger from a post');
+
+  res.send(record);
+
+
+}
 
 
 
