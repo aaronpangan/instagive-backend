@@ -23,7 +23,7 @@ exports.login = async (req, res) => {
 
   const token = jwt.sign({ id }, 'secretkey');
 
-  res.status(200).send({valid: true, token});
+  res.status(200).send({valid: true, token, name: user.repName});
 };
 
 // exports.logout = async (req, res) => {
@@ -49,6 +49,12 @@ exports.requestAccount = async (req, res) => {
 
 
 
+
+
+
+
+
+  
 
   const user = await Request.findOne({
     email: req.body.email,
