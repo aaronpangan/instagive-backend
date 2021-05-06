@@ -62,18 +62,17 @@ exports.changeAccountStatus = async (req, res) => {
     accountStatus: req.params.status,
   });
 
-
-
   const token = jwt.sign({ id: req.params.userId }, 'secretkey');
 
-
+  const approvedMessage = `<h2>>We pleased to inform you that your application has been ${req.params.status}</h2>  <h2>Click the link to automatically log in   https://instagive.vercel.app/login/email/${token}</h2>`;
+  const rejectedMessage = `<h2> We are sorry to inform you that your applicated has been denied. To know more about the details, Please Contact us via Email or Messenger</h2>`;
   let mailContent = {
     from: 'instagive2021@gmail.com',
     to: updateStatus.email,
     subject: `InstaGive Pampanga`,
     html: `<h1>Thank for your registering in Instagive </h1>
-      <h2>We pleased to inform you that your application has been ${req.params.status}</h2>
-      <h2>Click the link to automatically log in   https://instagive.vercel.app/login/email/${token}</h2>
+
+      ${req.params.status === 'approved' ? approvedMessage : rejectedMessage}
     `,
   };
 
@@ -108,35 +107,20 @@ exports.userPost = async (req, res) => {
   res.send(userPost);
 };
 
+exports.changePostStatus = async (req, res) => {
+  const postStatus = await Post.findByIdAndUpdate(req.params.postId, {
+    status: req.params.status,
+  });
 
-
-exports.changePostStatus = async (req, res) =>{
-
-
-const postStatus = await Post.findByIdAndUpdate(req.params.postId, {
-
-  status: req.params.status
-
-})
-
-
-res.send(postStatus)
-
-
-}
-
+  res.send(postStatus);
+};
 
 exports.changeLedgerStatus = async (req, res) => {
-
-
-const ledger = await Ledger.findByIdAndUpdate(req.params.ledgerId, {
-
-  status : req.params.status
-
-})
+  const ledger = await Ledger.findByIdAndUpdate(req.params.ledgerId, {
+    status: req.params.status,
+  });
 
   await ledger.save();
 
-  res.send(ledger)
-
-}
+  res.send(ledger);
+};
