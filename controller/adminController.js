@@ -64,7 +64,7 @@ exports.changeAccountStatus = async (req, res) => {
 
   const token = jwt.sign({ id: req.params.userId }, 'secretkey');
 
-  const approvedMessage = `<h2>>We pleased to inform you that your application has been ${req.params.status}</h2>  <h2>Click the link to automatically log in   https://instagive.vercel.app/login/email/${token}</h2>`;
+  const approvedMessage = `<h2>We pleased to inform you that your application has been ${req.params.status}</h2>  <h2>Click the link to automatically log in   https://instagive.vercel.app/login/email/${token}</h2>`;
   const rejectedMessage = `<h2> We are sorry to inform you that your applicated has been denied. To know more about the details, Please Contact us via Email or Messenger</h2>`;
   let mailContent = {
     from: 'instagive2021@gmail.com',
